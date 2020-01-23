@@ -1,0 +1,20 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: configuration-service
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/unknownku/playground-config-server
+          clone-on-start: true
+  security:
+    user:
+      name: root
+      password: s3cr3t
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9001/eureka
+

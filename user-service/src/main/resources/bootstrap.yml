@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: user-service
+  cloud:
+    config:
+      uri: http://localhost:8888
+      username: root
+      password: s3cr3t
+security:
+  oauth2:
+    resource:
+      jwk:
+        key-set-uri: http://localhost:9000/.well-known/jwks.json
+
+management:
+  security:
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: health,info,refresh
+    beans:
+      enabled: false

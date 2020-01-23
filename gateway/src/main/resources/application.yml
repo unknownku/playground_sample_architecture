@@ -1,0 +1,40 @@
+server:
+  port: 9090
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9001/eureka
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: auth
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/oauth/**
+        - id : customers
+#          uri: http://localhost:8080
+          uri: lb://RESOURCE-SERVICE
+          predicates:
+            - Path=/customers/**
+#            - Host=**.somehost.org
+#            - RemoteAddr=192.168.1.38
+#          filters:
+#            PrefixPath=/api
+          filters:
+            - name: Hystrix
+              args:
+                name: fallbackCommand
+                fallbackUri: forward:/fallback/message
+        - id: users
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/users/**
+#            - Host=localhost
+#            - RemoteAddr=192.168.1.37
+      metrics:
+        enabled: true
+  zipkin:
+#    enabled: false
